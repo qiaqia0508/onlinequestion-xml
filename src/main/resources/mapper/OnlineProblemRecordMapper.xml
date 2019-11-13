@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qiaqia.dao.OnlineProblemRecordMapper">
+    
+    <resultMap id="BaseResultMap" type="com.qiaqia.entity.OnlineProblemRecord">
+        <result column="id"  property="id"></result>
+        <result column="app"  property="app"></result>
+        <result column="problem_desc"  property="problemDesc"></result>
+        <result column="feedback_man_name"  property="feedbackManName"></result>
+        <result column="feedback_man_code"  property="feedbackManCode"></result>
+    </resultMap>
+    
+    <select id="getRecordByCondition" resultType="com.qiaqia.entity.OnlineProblemRecord" >
+        select id,problem_desc,app,feedback_man_name,feedback_man_code from online_problem_record
+    </select>
+</mapper>
