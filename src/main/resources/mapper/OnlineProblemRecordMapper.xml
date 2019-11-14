@@ -5,15 +5,37 @@
 
 <mapper namespace="com.qiaqia.dao.OnlineProblemRecordMapper">
     
-    <resultMap id="BaseResultMap" type="com.qiaqia.entity.OnlineProblemRecord">
+    <resultMap id="recordResultMap" type="com.qiaqia.entity.OnlineProblemRecord">
         <result column="id"  property="id"></result>
         <result column="app"  property="app"></result>
         <result column="problem_desc"  property="problemDesc"></result>
         <result column="feedback_man_name"  property="feedbackManName"></result>
         <result column="feedback_man_code"  property="feedbackManCode"></result>
+        <result column="source"  property="source"></result>
+        <result column="city_name"  property="cityName"></result>
+        <result column="city_id"  property="cityId"></result>
+        <result column="feedback_date"  property="feedbackDate"></result>
+        <result column="resolve_status"  property="resolveStatus"></result>
+        <result column="product_code"  property="productCode"></result>
+        <result column="product_name"  property="productName"></result>
+        <result column="engineer_code"  property="engineerCode"></result>
+        <result column="engineer_name"  property="engineerName"></result>
+        <result column="duty_man_code"  property="dutyManCode"></result>
+        <result column="duty_man_name"  property="dutyManName"></result>
+        <result column="problem_reason"  property="problemReason"></result>
+        <result column="problem_type"  property="problemType"></result>
+        <result column="deal_method"  property="dealMethod"></result>
+        <result column="remark"  property="remark"></result>
+        <result column="create_at"  property="createAt"></result>
+        <result column="create_by"  property="createBy"></result>
+        <result column="update_at"  property="updateAt"></result>
+        <result column="update_by"  property="updateBy"></result>
+        <result column="is_deleted"  property="isDeleted"></result>
+        <result column="check_status"  property="checkStatus"></result>
+
     </resultMap>
     
-    <select id="getRecordByCondition" resultType="com.qiaqia.entity.OnlineProblemRecord" >
-        select id,problem_desc,app,feedback_man_name,feedback_man_code from online_problem_record
+    <select id="getRecordByCondition" resultMap="recordResultMap" >
+        select * from online_problem_record
     </select>
 </mapper>
