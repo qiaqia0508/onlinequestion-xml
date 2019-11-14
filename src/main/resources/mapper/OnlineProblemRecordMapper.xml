@@ -32,7 +32,6 @@
         <result column="update_by"  property="updateBy"></result>
         <result column="is_deleted"  property="isDeleted"></result>
         <result column="check_status"  property="checkStatus"></result>
-
     </resultMap>
     
     <select id="getRecordByCondition" resultMap="recordResultMap" >
