@@ -2,7 +2,9 @@ package com.qiaqia.controller;
 
 
 import com.qiaqia.dto.APIResponseDto;
+import com.qiaqia.dto.PageAPIResponseDto;
 import com.qiaqia.entity.OnlineProblemRecord;
+import com.qiaqia.entity.QueryDto;
 import com.qiaqia.service.OnlineProblemRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,17 +29,36 @@ public class OnlineProblemRecordController {
 //    查询所有
     @ResponseBody
     @RequestMapping(path="/query",method = RequestMethod.POST)
-    public APIResponseDto getRecordByCondition(){
-        APIResponseDto dto = new APIResponseDto();
-        List<OnlineProblemRecord> list = new ArrayList<OnlineProblemRecord>();
-        try{
-            list = onlineProblemRecordService.getRecordByCondition();
-            dto.setCode(0);
-            dto.setMsg("请求成功");
-            dto.setData(list);
-        }catch (Exception e){
+    public PageAPIResponseDto getRecordByCondition(@RequestParam int currentPage){
+        PageAPIResponseDto dto = new PageAPIResponseDto();
+        //设定每页条数
+        int pageSize = 5;
+        //获取查询结果的总条数
+        int count = onlineProblemRecordService.getQueryCount();
+        int pageCount = 0;
+        if(count%pageSize==0){
+            pageCount = count/pageSize;
+        }else{
+            pageCount = count/pageSize;
+        }
+        if(currentPage <= pageCount) {
+            List<OnlineProblemRecord> list = new ArrayList<OnlineProblemRecord>();
+            int pageNum = currentPage * pageSize;
+            try {
+                list = onlineProblemRecordService.getRecordByCondition(pageNum,pageSize);
+                dto.setCode(0);
+                dto.setMsg("请求成功");
+                dto.setData(list);
+                dto.setCurrentPage(currentPage);
+                dto.setPageCount(pageCount);
+                dto.setTotalCount(count);
+            } catch (Exception e) {
+                dto.setCode(-1);
+                dto.setMsg("请求失败" + e.getMessage());
+            }
+        }else{
             dto.setCode(-1);
-            dto.setMsg("请求失败"+e.getMessage());
+            dto.setMsg("请求页数不正确，请重新输入！");
         }
         return dto;
     }
