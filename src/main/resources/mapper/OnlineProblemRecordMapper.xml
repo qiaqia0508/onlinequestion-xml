@@ -36,11 +36,18 @@
 
     <!--分页查询-->
     <select id="getRecordByCondition" resultMap="recordResultMap" >
-        select * from online_problem_record limit #{pageNum},#{pageSize}
+        select * from online_problem_record where 1=1
+        <if test="queryDto.resolveStatus !=0">
+            and resolve_status = #{queryDto.resolveStatus}
+        </if>
+        limit #{pageNum},#{pageSize}
     </select>
 
     <!--查询总数-->
     <select id="getQueryCount" resultType="int">
-        select count(*) from online_problem_record
+        select count(*) from online_problem_record where 1=1
+        <if test="queryDto.resolveStatus !=0">
+            and resolve_status = #{queryDto.resolveStatus}
+        </if>
     </select>
 </mapper>

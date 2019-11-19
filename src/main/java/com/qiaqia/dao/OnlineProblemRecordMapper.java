@@ -10,8 +10,8 @@ import java.util.*;
 public interface OnlineProblemRecordMapper {
 
 //    根据条件查询
-    List<OnlineProblemRecord> getRecordByCondition(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
+    List<OnlineProblemRecord> getRecordByCondition(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize,@Param("queryDto") QueryDto queryDto);
 
 //    获取查询总条数
-    int getQueryCount();
+    int getQueryCount(@Param("queryDto") QueryDto queryDto);
 }
