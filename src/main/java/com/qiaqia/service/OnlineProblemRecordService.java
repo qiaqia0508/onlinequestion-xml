@@ -24,4 +24,14 @@ public class OnlineProblemRecordService {
     public int getQueryCount(QueryDto queryDto){
         return onlineProblemRecordMapper.getQueryCount(queryDto);
     }
+
+    public boolean insertOrUpdate(OnlineProblemRecord onlineProblemRecord){
+        return onlineProblemRecordMapper.insertOrUpdate(onlineProblemRecord);
+    }
+
+    public List<OnlineProblemRecord> getAll(QueryDto queryDto){
+        return onlineProblemRecordMapper.getAll(queryDto);
+    }
+
+
 }

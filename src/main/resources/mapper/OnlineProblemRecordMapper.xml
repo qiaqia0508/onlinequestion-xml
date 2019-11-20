@@ -43,6 +43,14 @@
         limit #{pageNum},#{pageSize}
     </select>
 
+    <!--查询所有数据-->
+    <select id="getAll" resultMap="recordResultMap">
+        select * from online_problem_record where is_deleted=0
+        <if test="queryDto.resolveStatus !=0">
+            and resolve_status = #{queryDto.resolveStatus}
+        </if>
+    </select>
+
     <!--查询总数-->
     <select id="getQueryCount" resultType="int">
         select count(*) from online_problem_record where 1=1
@@ -50,4 +58,10 @@
             and resolve_status = #{queryDto.resolveStatus}
         </if>
     </select>
+
+    <!--新增-->
+    <insert id="insertOrUpdate" parameterType="com.qiaqia.entity.OnlineProblemRecord">
+        insert into online_problem_record (app,problem_desc,feedback_man_name,feedback_man_code,source,city_name,city_id,feedback_date,resolve_status,product_code,product_name,engineer_code,engineer_name,duty_man_code,duty_man_name,problem_reason,problem_type,deal_method,remark,create_at,create_by,update_at,update_by,is_deleted,check_status)
+        values(#{onlineProblemRecord.app},#{onlineProblemRecord.problemDesc},#{onlineProblemRecord.feedbackManName},#{onlineProblemRecord.feedbackManCode},#{onlineProblemRecord.source},#{onlineProblemRecord.cityName},#{onlineProblemRecord.cityId},#{onlineProblemRecord.feedbackDate},#{onlineProblemRecord.resolveStatus},#{onlineProblemRecord.productCode},#{onlineProblemRecord.productName},#{onlineProblemRecord.engineerCode},#{onlineProblemRecord.engineerName},#{onlineProblemRecord.dutyManCode},#{onlineProblemRecord.dutyManName},#{onlineProblemRecord.problemReason},#{onlineProblemRecord.problemType},#{onlineProblemRecord.dealMethod},#{onlineProblemRecord.remark},#{onlineProblemRecord.createAt},#{onlineProblemRecord.createBy},#{onlineProblemRecord.updateAt},#{onlineProblemRecord.updateBy},#{onlineProblemRecord.isDeleted},#{onlineProblemRecord.checkStatus})
+    </insert>
 </mapper>

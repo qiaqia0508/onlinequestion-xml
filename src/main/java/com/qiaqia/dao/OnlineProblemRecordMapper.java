@@ -14,4 +14,8 @@ public interface OnlineProblemRecordMapper {
 
 //    获取查询总条数
     int getQueryCount(@Param("queryDto") QueryDto queryDto);
+
+    boolean insertOrUpdate(@Param("onlineProblemRecord") OnlineProblemRecord onlineProblemRecord);
+
+    List<OnlineProblemRecord> getAll(@Param("queryDto") QueryDto queryDto);
 }
