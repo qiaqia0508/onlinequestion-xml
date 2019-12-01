@@ -29,7 +29,7 @@ public class OnlineProblemRecordController {
 //    查询所有
     @ResponseBody
     @RequestMapping(path="/query",method = RequestMethod.POST)
-    public PageAPIResponseDto getRecordByCondition(@RequestParam int currentPage){
+    public PageAPIResponseDto getRecordByCondition(@RequestParam int currentPage,@RequestBody QueryDto queryDto){
         PageAPIResponseDto dto = new PageAPIResponseDto();
         //设定每页条数
         int pageSize = 5;
@@ -45,7 +45,7 @@ public class OnlineProblemRecordController {
             List<OnlineProblemRecord> list = new ArrayList<OnlineProblemRecord>();
             int pageNum = currentPage * pageSize;
             try {
-                list = onlineProblemRecordService.getRecordByCondition(pageNum,pageSize);
+                list = onlineProblemRecordService.getRecordByCondition(pageNum,pageSize,queryDto);
                 dto.setCode(0);
                 dto.setMsg("请求成功");
                 dto.setData(list);

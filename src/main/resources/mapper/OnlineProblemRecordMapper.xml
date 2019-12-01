@@ -36,7 +36,14 @@
 
     <!--分页查询-->
     <select id="getRecordByCondition" resultMap="recordResultMap" >
-        select * from online_problem_record limit #{pageNum},#{pageSize}
+        select * from online_problem_record where 1=1
+        <if test="queryDto.resolveStatus != 0 ">
+            and resolve_status = #{queryDto.resolveStatus}
+        </if>
+        <if test="queryDto.date != null ">
+            and feedback_date = #{queryDto.date}
+        </if>
+        limit #{pageNum},#{pageSize}
     </select>
 
     <!--查询总数-->
