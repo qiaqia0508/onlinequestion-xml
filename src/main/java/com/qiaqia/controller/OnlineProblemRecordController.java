@@ -3,8 +3,11 @@ package com.qiaqia.controller;
 
 import com.qiaqia.dto.APIResponseDto;
 import com.qiaqia.dto.PageAPIResponseDto;
+import com.qiaqia.entity.OnlineProblemOperationRecord;
 import com.qiaqia.entity.OnlineProblemRecord;
 import com.qiaqia.entity.QueryDto;
+import com.qiaqia.entity.RecordDto;
+import com.qiaqia.service.OnlineProblemOperationRecordService;
 import com.qiaqia.service.OnlineProblemRecordService;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class OnlineProblemRecordController {
 
     @Autowired
     OnlineProblemRecordService onlineProblemRecordService;
+    @Autowired
+    OnlineProblemOperationRecordService onlineProblemOperationRecordService;
 
 //    查询所有
     @ResponseBody
@@ -76,12 +81,28 @@ public class OnlineProblemRecordController {
     @RequestMapping(path = "/addOrEdit",method = RequestMethod.POST)
     public APIResponseDto insertOrUpdate(@RequestBody OnlineProblemRecord onlineProblemRecord){
         APIResponseDto dto = new APIResponseDto();
+        RecordDto recordDto = new RecordDto();
         boolean flag = false;
         try{
+            System.out.println("新增前的id："+onlineProblemRecord.getId());
             flag = onlineProblemRecordService.insertOrUpdate(onlineProblemRecord);
-            dto.setCode(0);
-            dto.setMsg("请求成功");
-            dto.setData(flag);
+            System.out.println("新增后的id："+onlineProblemRecord.getId());
+            if(flag) {
+//                添加操作记录
+                recordDto.setOnlineProblemRecordId(onlineProblemRecord.getId());
+                recordDto.setOnlineProblemOperationType(1);
+                recordDto.setOperationAt(onlineProblemRecord.getCreateAt());
+                recordDto.setOperationByName(onlineProblemRecord.getCreateBy());
+                boolean flag1 = onlineProblemOperationRecordService.addRecord(recordDto);
+                if(flag1){
+                    System.out.println("操作记录新增成功");
+                }else{
+                    System.out.println("操作记录新增失败");
+                }
+                dto.setCode(0);
+                dto.setMsg("请求成功");
+                dto.setData(flag);
+            }
         }catch(Exception e){
             dto.setCode(-1);
             dto.setMsg("请求失败"+e.getMessage());

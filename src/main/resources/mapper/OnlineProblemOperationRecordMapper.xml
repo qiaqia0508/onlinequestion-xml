@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.qiaqia.dao.OnlineProblemOperationRecordMapperRecordMapper">
+<mapper namespace="com.qiaqia.dao.OnlineProblemOperationRecordMapper">
     
     <insert id="addRecord" parameterType="com.qiaqia.entity.RecordDto">
         insert into online_problem_operation_record(online_problem_record_id,online_problem_operation_type,operation_at,operation_by_name)
