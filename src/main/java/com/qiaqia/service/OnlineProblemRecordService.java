@@ -22,6 +22,7 @@ public class OnlineProblemRecordService {
     }
 
     public int getQueryCount(QueryDto queryDto){
+
         return onlineProblemRecordMapper.getQueryCount(queryDto);
     }
 

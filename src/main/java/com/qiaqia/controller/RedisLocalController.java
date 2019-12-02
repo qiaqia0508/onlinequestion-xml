@@ -1,12 +1,11 @@
 package com.qiaqia.controller;
 
+import com.qiaqia.entity.TestEntity;
 import com.qiaqia.service.RedisLocalService;
+import com.qiaqia.util.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,11 +25,33 @@ public class RedisLocalController {
          redisLocalService.setString(key,value);
     }
 
+
     @ResponseBody
     @RequestMapping(value = "/string/get",method = RequestMethod.GET)
     public String getString(String key){
 
        return redisLocalService.getString(key);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/json/set",method = RequestMethod.POST)
+    public void setJson(@RequestParam("key") String key,@RequestBody TestEntity entity){
+
+        String jsonStr = JSON.serialize(entity);
+
+        redisLocalService.setString(key,jsonStr);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/json/get",method = RequestMethod.GET)
+    public String getJson(String key){
+
+        String jsonStr = redisLocalService.getString(key);
+
+        TestEntity entity = JSON.parse(jsonStr,TestEntity.class);
+
+        return entity.getName();
     }
 
     @ResponseBody
