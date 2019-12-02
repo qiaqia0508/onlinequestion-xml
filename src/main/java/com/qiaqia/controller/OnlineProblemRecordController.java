@@ -36,7 +36,7 @@ public class OnlineProblemRecordController {
 //    查询所有
     @ResponseBody
     @RequestMapping(path="/query",method = RequestMethod.POST)
-    public PageAPIResponseDto getRecordByCondition(@RequestParam int currentPage, @RequestBody QueryDto queryDto){
+    public PageAPIResponseDto getRecordByCondition(@RequestParam int currentPage,@RequestBody QueryDto queryDto){
         PageAPIResponseDto dto = new PageAPIResponseDto();
         //设定每页条数
         int pageSize = 5;
