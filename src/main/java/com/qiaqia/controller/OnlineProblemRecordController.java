@@ -9,6 +9,8 @@ import com.qiaqia.entity.QueryDto;
 import com.qiaqia.entity.RecordDto;
 import com.qiaqia.service.OnlineProblemOperationRecordService;
 import com.qiaqia.service.OnlineProblemRecordService;
+import com.qiaqia.service.RedisLocalService;
+import com.qiaqia.util.JSON;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -32,6 +34,52 @@ public class OnlineProblemRecordController {
     OnlineProblemRecordService onlineProblemRecordService;
     @Autowired
     OnlineProblemOperationRecordService onlineProblemOperationRecordService;
+    @Autowired
+    RedisLocalService redisLocalService;
+
+
+    @ResponseBody
+    @RequestMapping(path="/queryId",method = RequestMethod.GET)
+    public APIResponseDto queryById(@RequestParam("id") String id){
+        APIResponseDto dto = new APIResponseDto();
+        OnlineProblemRecord record = new OnlineProblemRecord();
+
+        //查询时先去redis查
+        String hashKey = "record";
+        String key = "id:"+id;
+        //开始从redis中获取数据
+        Object redisResult = redisLocalService.getHash(hashKey,key);
+        if(redisResult==null){
+            try{
+                System.out.println("开始数据库查询");
+                record = onlineProblemRecordService.queryById(id);
+                dto.setCode(1);
+                dto.setMsg("数据库获取数据成功");
+                dto.setData(record);
+
+                //往redis中添加数据
+                System.out.println("开始往redis中写数据");
+                String recordJson = JSON.serialize(record);
+                redisLocalService.setHash(hashKey,key,recordJson);
+//                redisLocalService.expire(key,60);
+            }catch (Exception e){
+                dto.setCode(-1);
+                dto.setMsg("请求失败"+e.getMessage());
+            }
+        }else{
+            //直接取redis中的内容进行返回
+            System.out.println("开始redis查询");
+            record = JSON.parse(redisResult.toString(),OnlineProblemRecord.class);
+            dto.setCode(1);
+            dto.setMsg("redis获取数据成功");
+            dto.setData(record);
+        }
+
+
+
+        return dto;
+    }
+
 
 //    查询所有
     @ResponseBody

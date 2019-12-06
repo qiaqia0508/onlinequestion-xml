@@ -15,6 +15,10 @@ public class OnlineProblemRecordService {
     @Autowired
     OnlineProblemRecordMapper onlineProblemRecordMapper;
 
+    public OnlineProblemRecord queryById(String id){
+        return onlineProblemRecordMapper.queryById(id);
+    }
+
     public List<OnlineProblemRecord> getRecordByCondition(int pageNum, int pageSize,QueryDto queryDto){
         List<OnlineProblemRecord> list = new ArrayList<OnlineProblemRecord>();
         list = onlineProblemRecordMapper.getRecordByCondition(pageNum,pageSize,queryDto);

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisLocalService {
@@ -23,6 +24,18 @@ public class RedisLocalService {
 
     public String getString(String key){
         return (String)template.opsForValue().get(key);
+    }
+
+    public void setHash(String hashKey, String key, String value){
+        template.opsForHash().put(hashKey, key, value);
+    }
+
+    public Object getHash(String hashKey, String key){
+        return template.opsForHash().get(hashKey, key);
+    }
+
+    public boolean expire(String key,long time){
+        return template.expire(key,20, TimeUnit.SECONDS);
     }
 
     public void addListItem(String listKey,String itemVlaue){

@@ -56,6 +56,12 @@
         </if>
     </select>
 
+
+    <!--根据id查询-->
+    <select id="queryById" resultMap="recordResultMap">
+        select * from online_problem_record where id = #{id}
+    </select>
+
     <!--查询总数-->
     <select id="getQueryCount" resultType="int">
         select count(*) from online_problem_record where 1=1
