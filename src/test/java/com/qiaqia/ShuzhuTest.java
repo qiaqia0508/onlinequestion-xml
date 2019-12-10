@@ -31,13 +31,13 @@ public class ShuzhuTest {
             System.out.println(apples.get(i).id());
         }
 
-        apples.add(3,new Apple());
-        System.out.println(apples.isEmpty());
-        apples.remove(1);
-        System.out.println("array:"+apples.toArray());
-
-        for(Apple a : apples)
-            System.out.println(a.id());
+//        apples.add(3,new Apple());
+//        System.out.println(apples.isEmpty());
+//        apples.remove(1);
+//        System.out.println("array:"+apples.toArray());
+//
+//        for(Apple a : apples)
+//            System.out.println(a.id());
     }
 
 
